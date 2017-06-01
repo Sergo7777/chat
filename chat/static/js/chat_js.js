@@ -1,23 +1,19 @@
-$(document).ready(function () {
-    $('#chat-form').on(function(event){
-        event.preventDefault();
-        var msgbox = {
-            'msgbox': $("input[name='chat-msg']").val()}
-        $.ajax({
-            url : 'post',
-            type : 'POST',
-            data : msgbox,
-            dataType: "json",
-            cache: false,
-            success : function(JsonResponse){
-                $('#chat-msg').val('');
-                $('#msg-list').append('<li class="text-right list-group-item">' + JsonResponse.msg + '</li>');
-                var chatlist = document.getElementById('msg-list-div');
-                    chatlist.scrollTop = chatlist.scrollHeight;
-            }
-        });
+$('#chat-form').on('submit', function(event){
+    event.preventDefault();
+
+    $.ajax({
+        url : '/post/',
+        type : 'POST',
+        data : { msgbox : $('#chat-msg').val() },
+
+        success : function(json){
+            $('#chat-msg').val('');
+            $('#msg-list').append('<li class="text-right list-group-item">' + json.msg + '</li>');
+            var chatlist = document.getElementById('msg-list-div');
+            chatlist.scrollTop = chatlist.scrollHeight;
+        }
     });
-})
+});
 
 
 $(document).ready(function() {
