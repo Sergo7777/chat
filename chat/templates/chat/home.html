@@ -1,0 +1,53 @@
+{% extends "chat/base.html" %}
+{% load staticfiles %}
+{% block title %} Chat application {% endblock %}
+{% block extra_headers %}
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,400" rel="stylesheet">
+{% endblock %}
+{% block content %}
+    <div class="inner-bg">
+        <div class="container">
+            <div class="row col-lg-8 col-lg-offset-2">
+                <div class="header">
+                    <h1>Hello! Welcome to the chat room</h1>   
+                </div>
+                <div id="chat-body" class="">
+                    <div id="msg-list-div" class="panel-body">
+                        <ul id="msg-list" class="list-group">
+                            {% for item in chat %}
+                                {% if item.user == request.user %}
+                                    <li class="text-right list-group-item">{{ item.message }}</li>
+                                {% else %}
+                                    <li class="text-left list-group-item">{{ item.message }}</li>
+                                {% endif %}
+                            {% empty %}
+                                <li class="text-right list-group-item">No messages.</li>
+                            {% endfor %}
+                            <script>
+                                var chatlist = document.getElementById('msg-list-div');
+                                chatlist.scrollTop = chatlist.scrollHeight;
+                            </script>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-lg-offset-2">
+                <form id="chat-form" class="form-inline" method="post" action="/post/">{% csrf_token %}
+                    <div id="chat-bottom" class="input-group">
+                        <input type="text" id="chat-msg" name="chat-msg" class="form-control"/>
+                        <span class="input-group-btn">
+                            <input class="btn  sbm-orange" id="send" type="submit" value="Send"/>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>  
+{% endblock %}
+{% block script_bottom %} 
+    <script type="text/javascript">
+    // using jQuery
+        var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+    </script>
+    <script src="{% static 'js/chat_js.js' %}"></script>
+{% endblock %}
