@@ -42,3 +42,7 @@ def post(request):
         return JsonResponse({ 'msg': msg, 'user': chat.user.username })
     else:
         return HttpResponse('Request must be POST.')
+
+def all_messages(request):
+    chat = Chat.objects.all()
+    return render(request, 'chat/messages.html', {'chat': chat})

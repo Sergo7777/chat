@@ -12,6 +12,7 @@
                     <h1>Hello! Welcome to the chat room</h1>   
                 </div>
                 <div id="chat-body" class="">
+                        {% if user.authenticate %}
                     <div id="msg-list-div" class="panel-body">
                         <ul id="msg-list" class="list-group">
                             {% for item in chat %}
@@ -21,13 +22,20 @@
                                     <li class="text-left list-group-item">{{ item.message }}</li>
                                 {% endif %}
                             {% empty %}
-                                <li class="text-right list-group-item">No messages.</li>
+                                <li class="text-right list-group-item">No messages...</li>
                             {% endfor %}
                             <script>
                                 var chatlist = document.getElementById('msg-list-div');
                                 chatlist.scrollTop = chatlist.scrollHeight;
                             </script>
                         </ul>
+                        {% else %}
+                        <div class="form-group">
+                            <a href='/login/'>
+                                <h2>Go to Login</h2>
+                            </a>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
